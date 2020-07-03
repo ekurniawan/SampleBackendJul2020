@@ -74,7 +74,8 @@ namespace SampleBackendApp.DAL
         {
             using (SqlConnection conn = new SqlConnection(GetConn()))
             {
-                string strSql = @"insert into Employees(EmpName,Designation,Department,Qualification) 
+                string strSql = @"insert into 
+                                  Employees(EmpName,Designation,Department,Qualification) 
                                   values(@EmpName,@Designation,@Department,@Qualification)";
                 var param = new { EmpName=emp.EmpName,Designation=emp.Designation,
                     Department=emp.Department,Qualification=emp.Qualification};
