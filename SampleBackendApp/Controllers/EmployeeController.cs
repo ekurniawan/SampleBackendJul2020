@@ -20,13 +20,14 @@ namespace SampleBackendApp.Controllers
         // GET: api/Employee
         public IEnumerable<Employee> Get()
         {
-            return _empDAL.GetAll();
+            return _empDAL.GetAllDapper();
         }
 
         // GET: api/Employee/5
-        public string Get(int id)
+        public Employee Get(int id)
         {
-            return "value";
+            var result = _empDAL.GetById(id);
+            return result;
         }
 
         // POST: api/Employee

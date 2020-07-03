@@ -5,6 +5,7 @@ using System.Web;
 using System.Data.SqlClient;
 using System.Web.Configuration;
 using SampleBackendApp.Models;
+using Dapper;
 
 namespace SampleBackendApp.DAL
 {
@@ -19,7 +20,7 @@ namespace SampleBackendApp.DAL
         public IEnumerable<Employee> GetAll()
         {
             List<Employee> lstEmployee = new List<Employee>();
-            using(SqlConnection conn = new SqlConnection(GetConn()))
+            using (SqlConnection conn = new SqlConnection(GetConn()))
             {
                 string strSql = @"select * from Employees order by EmpName asc";
                 SqlCommand cmd = new SqlCommand(strSql, conn);
@@ -44,6 +45,48 @@ namespace SampleBackendApp.DAL
                 conn.Close();
             }
             return lstEmployee;
-        } 
+        }
+
+
+        public IEnumerable<Employee> GetAllDapper()
+        {
+            using (SqlConnection conn = new SqlConnection(GetConn()))
+            {
+                string strSql = @"select * from Employees order by EmpName asc";
+                var results = conn.Query<Employee>(strSql);
+                return results;
+            }
+        }
+
+        public Employee GetById(int empId)
+        {
+            using (SqlConnection conn = new SqlConnection(GetConn()))
+            {
+                string strSql = @"select * from Employees 
+                                  where EmpId=@EmpId";
+                var param = new { EmpId = empId };
+                var result = conn.QuerySingleOrDefault<Employee>(strSql, param);
+                return result;
+            }
+        }
+
+        public void Insert(Employee emp)
+        {
+            using (SqlConnection conn = new SqlConnection(GetConn()))
+            {
+                string strSql = @"insert into Employees(EmpName,Designation,Department,Qualification) 
+                                  values(@EmpName,@Designation,@Department,@Qualification)";
+                var param = new { EmpName=emp.EmpName,Designation=emp.Designation,
+                    Department=emp.Department,Qualification=emp.Qualification};
+                try
+                {
+                    conn.Execute(strSql, param);
+                }
+                catch (SqlException sqlEx)
+                {
+                    throw new Exception(sqlEx.Message);
+                }
+            }
+        }
     }
 }
