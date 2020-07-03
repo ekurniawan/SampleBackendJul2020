@@ -1,4 +1,5 @@
-﻿using SampleBackendApp.Models;
+﻿using SampleBackendApp.DAL;
+using SampleBackendApp.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,17 +11,16 @@ namespace SampleBackendApp.Controllers
 {
     public class EmployeeController : ApiController
     {
+        private EmployeeDAL _empDAL;
+        public EmployeeController()
+        {
+            _empDAL = new EmployeeDAL();
+        }
+
         // GET: api/Employee
         public IEnumerable<Employee> Get()
         {
-            List<Employee> lstEmp = new List<Employee>
-            {
-                new Employee{EmpId=1,EmpName="Erick",Qualification="Android Studio",
-                    Department="IT",Designation="Mobile Dev"},
-                new Employee{EmpId=2,EmpName="Roger",Qualification="Phonegap",
-                    Department="IT",Designation="Mobile Dev"},
-            };
-            return lstEmp;
+            return _empDAL.GetAll();
         }
 
         // GET: api/Employee/5
