@@ -10,7 +10,7 @@ namespace SampleBackendApp.DAL
     {
         private string GetConn()
         {
-
+            return "";
         }
     }
 }
