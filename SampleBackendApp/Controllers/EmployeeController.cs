@@ -1,4 +1,5 @@
 ﻿using SampleBackendApp.DAL;
+using SampleBackendApp.Filters;
 using SampleBackendApp.Models;
 using System;
 using System.Collections.Generic;
@@ -9,6 +10,7 @@ using System.Web.Http;
 
 namespace SampleBackendApp.Controllers
 {
+    [BasicAuthentication]
     public class EmployeeController : ApiController
     {
         private EmployeeDAL _empDAL;

@@ -35,11 +35,9 @@ namespace SampleBackendApp.Filters
                 {
                     var principal = new GenericPrincipal(new GenericIdentity(userName), null);
                     Thread.CurrentPrincipal = principal;
-
-                    actionContext.Response =
+                    /*actionContext.Response =
                        actionContext.Request.CreateResponse(HttpStatusCode.OK,
-                          "User " + userName + " successfully authenticated");
-
+                          "User " + userName + " successfully authenticated");*/
                     return;
                 }
             }
