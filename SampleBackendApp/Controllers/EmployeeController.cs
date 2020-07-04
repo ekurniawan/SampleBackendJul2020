@@ -78,7 +78,7 @@ namespace SampleBackendApp.Controllers
             }
         }
 
-
+        //https://localhost:44346/api/Employee/DeleteByName?name=Gord  
         [Route("api/Employee/DeleteByName")]
         [HttpDelete]
         public IHttpActionResult DeleteByName(string name)
