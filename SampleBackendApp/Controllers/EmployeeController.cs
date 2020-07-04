@@ -77,5 +77,21 @@ namespace SampleBackendApp.Controllers
                 return BadRequest($"Error: {ex.Message}");
             }
         }
+
+
+        [Route("api/Employee/DeleteByName")]
+        [HttpDelete]
+        public IHttpActionResult DeleteByName(string name)
+        {
+            try
+            {
+                _empDAL.DeleteByName(name);
+                return Ok("Data berhasil didelete");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }
