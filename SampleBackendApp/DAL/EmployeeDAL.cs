@@ -132,8 +132,34 @@ namespace SampleBackendApp.DAL
         {
             using (SqlConnection conn = new SqlConnection(GetConn()))
             {
-                string strSql = @"delete from Employees where EmpId=@EmpId";
-                var param = new { EmpId = id };
+                var cek = GetById(id);
+
+                if (cek != null)
+                {
+                    string strSql = @"delete from Employees where EmpId=@EmpId";
+                    var param = new { EmpId = id };
+                    try
+                    {
+                        conn.Execute(strSql, param);
+                    }
+                    catch (SqlException sqlEx)
+                    {
+                        throw new Exception(sqlEx.Message);
+                    }
+                }
+                else
+                {
+                    throw new Exception($"ID: {id} tidak ditemukan");
+                }
+            }
+        }
+
+        public void DeleteByName(string name)
+        {
+            using (SqlConnection conn = new SqlConnection(GetConn()))
+            {
+                string strSql = @"delete from Employees where EmpName like @EmpName";
+                var param = new { EmpName = '%' + name + '%' };
                 try
                 {
                     conn.Execute(strSql, param);
