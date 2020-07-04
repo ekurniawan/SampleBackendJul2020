@@ -7,6 +7,7 @@ using System.Web.Configuration;
 using SampleBackendApp.Models;
 using Dapper;
 using System.Security.AccessControl;
+using System.Runtime.Serialization;
 
 namespace SampleBackendApp.DAL
 {
@@ -68,6 +69,16 @@ namespace SampleBackendApp.DAL
                 var param = new { EmpId = empId };
                 var result = conn.QuerySingleOrDefault<Employee>(strSql, param);
                 return result;
+            }
+        }
+
+        public IEnumerable<Employee> GetByName(string name)
+        {
+            using (SqlConnection conn = new SqlConnection(GetConn()))
+            {
+                string strSql = @"select * from Employees where EmpName like @EmpName";
+                var param = new { EmpName = '%'+name+'%' };
+                return conn.Query<Employee>(strSql, param);
             }
         }
 

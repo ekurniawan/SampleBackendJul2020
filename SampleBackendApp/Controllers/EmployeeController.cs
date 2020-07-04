@@ -23,6 +23,12 @@ namespace SampleBackendApp.Controllers
             return _empDAL.GetAllDapper();
         }
 
+        [Route("api/Employee/GetByName")]
+        public IEnumerable<Employee> GetByName(string name)
+        {
+            return _empDAL.GetByName(name);
+        }
+
         // GET: api/Employee/5
         public Employee Get(int id)
         {
@@ -47,12 +53,29 @@ namespace SampleBackendApp.Controllers
         // PUT: api/Employee/5
         public IHttpActionResult Put(Employee emp)
         {
-
+            try
+            {
+                _empDAL.Update(emp);
+                return Ok($"Data employee {emp.EmpName} berhasil diupdate");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Error: {ex.Message}");
+            }
         }
 
         // DELETE: api/Employee/5
-        public void Delete(int id)
+        public IHttpActionResult Delete(int id)
         {
+            try
+            {
+                _empDAL.Delete(id);
+                return Ok($"Data employee berhasil di delete");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Error: {ex.Message}");
+            }
         }
     }
 }
