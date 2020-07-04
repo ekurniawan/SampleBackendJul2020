@@ -6,6 +6,7 @@ using System.Data.SqlClient;
 using System.Web.Configuration;
 using SampleBackendApp.Models;
 using Dapper;
+using System.Security.AccessControl;
 
 namespace SampleBackendApp.DAL
 {
@@ -79,6 +80,49 @@ namespace SampleBackendApp.DAL
                                   values(@EmpName,@Designation,@Department,@Qualification)";
                 var param = new { EmpName=emp.EmpName,Designation=emp.Designation,
                     Department=emp.Department,Qualification=emp.Qualification};
+                try
+                {
+                    conn.Execute(strSql, param);
+                }
+                catch (SqlException sqlEx)
+                {
+                    throw new Exception(sqlEx.Message);
+                }
+            }
+        }
+
+        public void Update(Employee emp)
+        {
+            using (SqlConnection conn = new SqlConnection(GetConn()))
+            {
+                string strSql = @"update Employees set EmpName=@EmpName,
+                Designation=@Designation,Department=@Department,Qualification=@Qualification 
+                where EmpId=@EmpId";
+                var param = new
+                {
+                    EmpName = emp.EmpName,
+                    Designation = emp.Designation,
+                    Department = emp.Department,
+                    Qualification = emp.Qualification,
+                    EmpId = emp.EmpId
+                };
+                try
+                {
+                    conn.Execute(strSql, param);
+                }
+                catch (SqlException sqlEx)
+                {
+                    throw new Exception(sqlEx.Message);   
+                }
+            }
+        }
+
+        public void Delete(int id)
+        {
+            using (SqlConnection conn = new SqlConnection(GetConn()))
+            {
+                string strSql = @"delete from Employees where EmpId=@EmpId";
+                var param = new { EmpId = id };
                 try
                 {
                     conn.Execute(strSql, param);

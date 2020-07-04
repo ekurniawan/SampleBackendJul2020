@@ -45,8 +45,9 @@ namespace SampleBackendApp.Controllers
         }
 
         // PUT: api/Employee/5
-        public void Put(int id, [FromBody]string value)
+        public IHttpActionResult Put(Employee emp)
         {
+
         }
 
         // DELETE: api/Employee/5
