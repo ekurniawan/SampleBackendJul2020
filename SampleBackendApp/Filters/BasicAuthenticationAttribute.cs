@@ -20,8 +20,10 @@ namespace SampleBackendApp.Filters
 
             if (authHeader != null)
             {
-                var authenticationToken = actionContext.Request.Headers.Authorization.Parameter;
-                var decodedAuthenticationToken = Encoding.UTF8.GetString(Convert.FromBase64String(authenticationToken));
+                var authenticationToken = 
+                    actionContext.Request.Headers.Authorization.Parameter;
+                var decodedAuthenticationToken = 
+                    Encoding.UTF8.GetString(Convert.FromBase64String(authenticationToken));
                 var usernamePasswordArray = decodedAuthenticationToken.Split(':');
                 var userName = usernamePasswordArray[0];
                 var password = usernamePasswordArray[1];
